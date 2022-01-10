@@ -23,6 +23,7 @@
 static const void *const kViewStackKey = &kViewStackKey;
 static const void *const kParentPtrsKey = &kParentPtrsKey;
 const void *const kLatestSenderKey = &kLatestSenderKey;
+const void *const kDelegateKey = &kDelegateKey;
 
 @implementation NSObject (MemoryLeak)
 
@@ -109,6 +110,10 @@ const void *const kLatestSenderKey = &kLatestSenderKey;
 
 - (void)setParentPtrs:(NSSet *)parentPtrs {
     objc_setAssociatedObject(self, kParentPtrsKey, parentPtrs, OBJC_ASSOCIATION_RETAIN);
+}
+
++ (void)setDelegate:(id<MLeaksFinderDelegate>)delegate {
+    objc_setAssociatedObject([NSObject class], kDelegateKey, delegate, OBJC_ASSOCIATION_RETAIN);
 }
 
 + (NSMutableSet *)classNamesWhitelist {

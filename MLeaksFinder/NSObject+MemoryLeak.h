@@ -14,6 +14,12 @@
 
 #define MLCheck(TARGET) [self willReleaseObject:(TARGET) relationship:@#TARGET];
 
+@protocol MLeaksFinderDelegate <NSObject>
+
+- (BOOL)viewController:(UIViewController *)viewController shouldCheckProperty:(NSString *)propertyName;
+
+@end
+
 @interface NSObject (MemoryLeak)
 
 - (BOOL)willDealloc;
@@ -23,6 +29,8 @@
 - (void)willReleaseChildren:(NSArray *)children;
 
 - (NSArray *)viewStack;
+
++ (void)setDelegate:(id<MLeaksFinderDelegate>)delegate;
 
 + (void)addClassNamesToWhitelist:(NSArray *)classNames;
 
